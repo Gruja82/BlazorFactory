@@ -1,0 +1,59 @@
+﻿@page "/purchases"
+
+<PageTitle>Purchases</PageTitle>
+
+<h1 class="text-center">Purchases</h1>
+
+<div class="text-end">
+    <button type="button" class="btn btn-primary text-end" @onclick="NavigateToCreatePage">
+        Create New
+    </button>
+</div>
+
+@if (PurchasesCollection == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <SearchBarForCustomerAndSupplier PaginationType="PurchasesCollection" Suppliers="_suppliers" DatesList="_purchaseDates" SearchTextChanged="OnSearchClickAsync"
+                DateChanged="OnSelectedDateChangedAsync" SupplierChanged="OnSelectedSupplierChangedAsync" />
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Purchase Code</th>
+                    <th scope="col">Purchase Date</th>
+                    <th scope="col">Supplier</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var purchase in PurchasesCollection.DataList)
+                {
+                    <tr>
+                        <td>@purchase.Code</td>
+                        <td>@purchase.PurchaseDate</td>
+                        <td>@purchase.SupplierName</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" @onclick="() => NavigateToEditPage(purchase.Id)">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <PaginationComponent PaginationType="PurchasesCollection" PageNumberChanged="OnPageChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </div>
+    </div>
+}

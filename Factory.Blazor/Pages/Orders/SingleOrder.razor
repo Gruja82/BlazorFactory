@@ -1,0 +1,88 @@
+﻿@page "/order"
+@page "/order/{id:int}"
+
+@if (Id == 0)
+{
+    <h3 class="text-center">New Order</h3>
+}
+else
+{
+    <h3 class="text-center">Order "@OrderModel!.Code"</h3>
+}
+
+<EditForm EditContext="Context" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <div>
+        <div>
+            <h4 class="text-center">General Details</h4>
+            <hr />
+            <div class="row mb-2">
+                <label for="@OrderModel!.Code" class="col-sm-2 col-form-label">Order Code</label>
+                <div class="col col-sm-10">
+                    <InputText class="form-control" @bind-Value="@OrderModel.Code" />
+                    <ValidationMessage For="() => OrderModel.Code" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="@OrderModel!.OrderDate" class="col-sm-2 col-form-label">Order Date</label>
+                <div class="col col-sm-10">
+                    <InputDate class="form-control" @bind-Value="@OrderModel.OrderDate" />
+                    <ValidationMessage For="() => OrderModel.OrderDate" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="@OrderModel!.CustomerName" class="col-sm-2 col-form-label">Customer Name</label>
+                <div class="col col-sm-10">
+                    <select class="form-control" @bind="@OrderModel.CustomerName">
+                        @foreach (var customer in _customers!)
+                        {
+                            <option value="@customer.Name">@customer.Name</option>
+                        }
+                    </select>
+                    <ValidationMessage For="() => OrderModel.CustomerName" />
+                </div>
+            </div>
+        </div>
+        <h4 class="text-center">Products List</h4>
+        <hr />
+        <div>
+            <label class="form-control text-center">Product and Quantity</label>
+        </div>
+        <div>
+            <label class="col col-sm-10">Product</label>
+            <select @bind="_productName" class="col col-sm-10">
+                <option value="@string.Empty">Select Product</option>
+                @foreach (var product in _products!)
+                {
+                    <option value="@product.Name">@product.Name</option>
+                }
+            </select>
+            <label class="col col-sm-10">Quantity</label>
+            <InputNumber @bind-Value="@_productQty" class="col col-sm-10" />
+
+            <span class="form-control text-danger">@_error</span>
+
+            <button type="button" class="btn btn-primary" @onclick="AddOrderDetailToModel">
+                Add
+            </button>
+        </div>
+        <div class="overflow-auto p-3 bg-body-tertiary" style="max-height: 200px;">
+            @for(int i = 0; i < OrderModel.OrderDetailsList.Count; i++)
+            {
+                <input readonly value="@OrderModel.OrderDetailsList[i].ProductName" />
+                <input readonly value="@OrderModel.OrderDetailsList[i].Qty" />
+                <button class="btn btn-danger mt-2" type="button" @onclick="() => RemoveProduct(i)">
+                    Remove
+                </button>
+                <hr style="border-top: 5px solid green;" />
+            }
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success mb-2 mt-5">Submit</button>
+</EditForm>
+
+<button hidden="@_isHidden" class="btn btn-danger mt-2" type="button" @onclick="OnDeleteClickAsync">
+    Delete
+</button>

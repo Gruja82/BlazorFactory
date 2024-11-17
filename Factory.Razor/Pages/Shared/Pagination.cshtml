@@ -1,0 +1,58 @@
+﻿@model PaginationViewModel
+
+<nav>
+    <form method="get">
+        <ul class="pagination">
+            @* Previous button *@
+            @if (Model.PageNumber > 1)
+            {
+                <li class="page-item">
+                    <button class="page-link" type="submit" name="pageIndex" value="@(Model.PageNumber-1)">
+                        <span aria-hidden="true">&laquo;</span>
+                    </button>
+                </li>
+            }
+
+            @* Page Numbers *@
+            @for(int i = 1; i <= Model.TotalPages; i++)
+            {
+                @if (i == Model.PageNumber)
+                {
+                    <li class="page-item">
+                        <span class="btn btn-info">@i</span>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <button class="btn btn-outline-info" type="submit" name="pageIndex" value="@i">
+                            @i
+                        </button>
+                    </li>
+                }
+            }
+
+            @* Next button *@
+            @if (Model.PageNumber < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <button class="page-link" type="submit" name="pageIndex" value="@(Model.PageNumber + 1)">
+                        <span aria-hidden="true">&raquo;</span>
+                    </button>
+                </li>
+            }
+        </ul>
+
+        <div>
+            Page Size: <select asp-for="PageSize" name="pageSize">
+                @for (int i = 0; i <= 10; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">
+                Change
+            </button>
+        </div>
+    </form>
+</nav>

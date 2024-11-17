@@ -1,0 +1,58 @@
+﻿@page "/products"
+
+<PageTitle>Products</PageTitle>
+
+<h1 class="text-center">Products</h1>
+
+<div class="text-end">
+    <button type="button" class="btn btn-primary text-end" @onclick="NavigateToCreatePage">
+        Create New
+    </button>
+</div>
+
+@if (ProductsCollection == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <SearchBarWithCategory Categories="_categories" SearchTextChanged="OnSearchAsync" CategoryChanged="OnSelectionChangedAsync" />
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in ProductsCollection.DataList)
+                {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td>@product.CategoryName</td>
+                        <td>@product.Quantity</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" @onclick="() => NavigateToEditPage(product.Id)">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <PaginationComponent PaginationType="ProductsCollection" PageNumberChanged="OnPageChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </div>
+    </div>
+}

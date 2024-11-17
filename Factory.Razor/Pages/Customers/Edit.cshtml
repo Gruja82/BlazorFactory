@@ -1,0 +1,64 @@
+﻿@page "{id:int}"
+@model Factory.Razor.Pages.Customers.EditModel
+
+<h1 class="text-center">Customer "@Model.CustomerModel.Name"</h1>
+
+<hr />
+
+<form method="post">
+    <input asp-for="CustomerModel.Id" hidden />
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Name" />
+            <span asp-validation-for="CustomerModel.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Contact" class="col-sm-2 col-form-label">Contact</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Contact" />
+            <span asp-validation-for="CustomerModel.Contact" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Address" class="col-sm-2 col-form-label">Address</label>
+        <div class="col col-sm-10">
+            <textarea type="text" asp-for="CustomerModel.Address"></textarea>
+            <span asp-validation-for="CustomerModel.Address" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.City" class="col-sm-2 col-form-label">City</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.City" />
+            <span asp-validation-for="CustomerModel.City" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Postal" class="col-sm-2 col-form-label">Postal Code</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Postal" />
+            <span asp-validation-for="CustomerModel.Postal" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Phone" class="col-sm-2 col-form-label">Phone</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Phone" />
+            <span asp-validation-for="CustomerModel.Phone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Email" class="col-sm-2 col-form-label">Email Address</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Email" />
+            <span asp-validation-for="CustomerModel.Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mt-4">
+        <button asp-page-handler="Edit" type="submit" class="btn btn-success mb-2 mt-2">Save Changes</button>
+        <button asp-page-handler="Delete" type="submit" class="btn btn-danger mb-2 mt-2 m-lg-2" onclick="return confirm('Are you sure you want to delete this Customer?')">Delete</button>
+    </div>
+</form>

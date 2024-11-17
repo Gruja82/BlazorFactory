@@ -1,0 +1,15 @@
+﻿@* Search bar reusable component *@
+
+<div class="input-group rounded">
+    <input @bind="_searchText" class="rounded" type="search" aria-label="Search" aria-describedby="search-addon" />
+    <button type="button" class="btn btn-outline-success my-2 my-sm-0" @onclick="(() => SearchTextChanged.InvokeAsync(_searchText))">
+        Search
+    </button>
+</div>
+
+@code{
+    private string? _searchText;
+
+    [Parameter]
+    public EventCallback<string> SearchTextChanged { get; set; }
+}

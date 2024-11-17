@@ -1,0 +1,97 @@
+﻿@page "/product"
+@page "/product/{id:int}"
+
+@if (Id == 0)
+{
+    <h3 class="text-center">New Product</h3>
+}
+else
+{
+    <h3 class="text-center">Product "@ProductModel!.Name"</h3>
+}
+
+<EditForm EditContext="Context" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <div>
+        <div>
+            <h4 class="text-center">General Details</h4>
+            <hr />
+            <div class="row mb-2">
+                <label for="@ProductModel!.Name" class="col-sm-2 col-form-label">Product Name</label>
+                <div class="col col-sm-10">
+                    <InputText class="form-control" @bind-Value="@ProductModel.Name" />
+                    <ValidationMessage For="() => ProductModel.Name" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="@ProductModel!.CategoryName" class="col-sm-2 col-form-label">Category</label>
+                <div class="col col-sm-10">
+                    <select class="form-control" @bind="ProductModel.CategoryName">
+                        @foreach (var category in _categories!)
+                        {
+                            <option value="@category.Name">@category.Name</option>
+                        }
+                    </select>
+                    <ValidationMessage For="() => ProductModel.CategoryName" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="@ProductModel!.Quantity" class="col-sm-2 col-form-label">Product Quantity</label>
+                <div class="col col-sm-10">
+                    <InputNumber class="form-control" @bind-Value="@ProductModel.Quantity" readonly />
+                    <ValidationMessage For="() => ProductModel.Quantity" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="@ProductModel!.Price" class="col-sm-2 col-form-label">Product Price</label>
+                <div class="col col-sm-10">
+                    <InputNumber class="form-control" @bind-Value="@ProductModel.Price" />
+                    <ValidationMessage For="() => ProductModel.Price" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <h4 class="text-center">Production Specification</h4>
+            <hr />
+            <div>
+                <label class="form-control text-center">Material and Quantity</label>
+            </div>
+            <div>
+                <label class="col col-sm-10">Material</label>
+                <select @bind="_materialName" class="col col-sm-10">
+                    <option value="@string.Empty">Select Material</option>
+                    @foreach (var material in _materials!)
+                    {
+                        <option value="@material.Name">@material.Name</option>
+                    }
+                </select>
+                <label class="col col-sm-10">Quantity</label> 
+                <InputNumber @bind-Value="@_materialQty" class="col col-sm-10" />
+
+                <span class="form-control text-danger">@_error</span>
+
+                <button type="button" class="btn btn-primary" @onclick="AddProductDetailToModel">
+                    Add
+                </button>
+            </div>
+            <div class="overflow-auto p-3 bg-body-tertiary" style="max-height: 200px;">
+                @for(int i = 0; i < ProductModel.ProductDetailsList.Count; i++)
+                {
+                    <input readonly value="@ProductModel.ProductDetailsList[i].MaterialName" />
+                    <input readonly value="@ProductModel.ProductDetailsList[i].Quantity" />
+                    <button class="btn btn-danger mt-2" type="button" @onclick="() => RemoveMaterial(i)">
+                        Remove
+                    </button>
+                    <hr style="border-top: 5px solid green;" />
+                }
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success mb-2 mt-5">Submit</button>
+</EditForm>
+
+<button hidden="@_isHidden" class="btn btn-danger mt-2" type="button" @onclick="OnDeleteClickAsync">
+    Delete
+</button>

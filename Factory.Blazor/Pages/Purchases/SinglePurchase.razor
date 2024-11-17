@@ -1,0 +1,87 @@
+﻿@page "/purchase"
+@page "/purchase/{id:int}"
+
+@if (Id == 0)
+{
+    <h3 class="text-center">New Purchase</h3>
+}
+else
+{
+    <h3 class="text-center">Purchase "@PurchaseModel!.Code"</h3>
+}
+
+<EditForm EditContext="Context" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <div>
+        <div>
+            <h4 class="text-center">General Details</h4>
+            <hr />
+            <div class="row mb-2">
+                <label for="@PurchaseModel!.Code" class="col-sm-2 col-form-label">Purchase Code</label>
+                <div class="col col-sm-10">
+                    <InputText class="form-control" @bind-Value="@PurchaseModel.Code" />
+                    <ValidationMessage For="() => PurchaseModel.Code" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="@PurchaseModel!.PurchaseDate" class="col-sm-2 col-form-label">Purchase Date</label>
+                <div class="col col-sm-10">
+                    <InputDate class="form-control" @bind-Value="@PurchaseModel.PurchaseDate" />
+                    <ValidationMessage For="() => PurchaseModel.PurchaseDate" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="@PurchaseModel!.SupplierName" class="col-sm-2 col-form-label">Supplier Name</label>
+                <div class="col col-sm-10">
+                    <select class="form-control" @bind="@PurchaseModel.SupplierName">
+                        @foreach (var supplier in _suppliers!)
+                        {
+                            <option value="@supplier.Name">@supplier.Name</option>
+                        }
+                        <ValidationMessage For="() => PurchaseModel.SupplierName" />
+                    </select>
+                </div>
+            </div>
+        </div>
+        <h4 class="text-center">Materials List</h4>
+        <hr />
+        <div>
+            <label class="form-control text-center">Material and Quantity</label>
+        </div>
+        <div>
+            <label class="col col-sm-10">Material</label>
+            <select @bind="_materialName" class="col col-sm-10">
+                @foreach (var material in _materials!)
+                {
+                    <option value="@material.Name">@material.Name</option>
+                }
+            </select>
+            <label class="col col-sm-10">Quantity</label>
+            <InputNumber @bind-Value="@_materialQty" class="col col-sm-10" />
+
+            <span class="form-control text-danger">@_error</span>
+
+            <button type="button" class="btn btn-primary" @onclick="AddPurchaseDetailToModel">
+                Add
+            </button>
+        </div>
+        <div class="overflow-auto p-3 bg-body-tertiary" style="max-height: 200px;">
+            @for (int i = 0; i < PurchaseModel.PurchaseDetailList.Count; i++)
+            {
+                <input readonly value="@PurchaseModel.PurchaseDetailList[i].MaterialName" />
+                <input readonly value="@PurchaseModel.PurchaseDetailList[i].Qty" />
+                <button class="btn btn-danger mt-2" type="button" @onclick="() => RemoveMaterial(i)">
+                    Remove
+                </button>
+                <hr style="border-top: 5px solid green;" />
+            }
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success mb-2 mt-5">Submit</button>
+</EditForm>
+
+<button hidden="@_isHidden" class="btn btn-danger mt-2" type="button" @onclick="OnDeleteClickAsync">
+    Delete
+</button>

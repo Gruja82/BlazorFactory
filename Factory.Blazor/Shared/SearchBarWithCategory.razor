@@ -1,0 +1,36 @@
+﻿@* Search bar with category reusable component *@
+
+<div class="input-group rounded">
+    <input @bind="_searchText" class="rounded" type="search" aria-label="Search" aria-describedby="search-addon" />
+    <select class="rounded" @onchange="OnValueChanged">
+        <option value="@string.Empty">Select Category</option>
+        @foreach (var category in Categories)
+        {
+            <option value="@category.Name">@category.Name</option>
+        }
+    </select>
+    <button type="button" class="btn btn-outline-success my-2 my-sm-0" @onclick="(() => SearchTextChanged.InvokeAsync(_searchText))">
+        Search
+    </button>
+</div>
+
+@code{
+    private string? _searchText;
+
+    private string? _category;
+
+    [Parameter]
+    public List<CategoryDto> Categories { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<string> SearchTextChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<string> CategoryChanged { get; set; }
+
+    private async Task OnValueChanged(ChangeEventArgs args)
+    {
+        _category = args.Value!.ToString();
+        await CategoryChanged.InvokeAsync(_category);
+    }
+}

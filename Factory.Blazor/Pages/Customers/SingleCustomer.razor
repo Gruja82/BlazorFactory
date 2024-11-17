@@ -1,0 +1,71 @@
+﻿@page "/customer"
+@page "/customer/{id:int}"
+
+@if (Id == 0)
+{
+    <h3 class="text-center">New Customer</h3>
+}
+else
+{
+    <h3 class="text-center">Customer "@CustomerModel!.Name"</h3>
+}
+
+<EditForm EditContext="Context" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <div class="row mb-2">
+        <label for="@CustomerModel!.Name" class="col-sm-2 col-form-label">Company Name</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@CustomerModel.Name" />
+            <ValidationMessage For="() => CustomerModel.Name" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@CustomerModel!.Contact" class="col-sm-2 col-form-label">Contact Person</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@CustomerModel.Contact" />
+            <ValidationMessage For="() => CustomerModel.Contact" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@CustomerModel!.Address" class="col-sm-2 col-form-label">Address</label>
+        <div class="col col-sm-10">
+            <InputTextArea class="form-control" @bind-Value="@CustomerModel.Address" />
+            <ValidationMessage For="() => CustomerModel.Address" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@CustomerModel!.City" class="col-sm-2 col-form-label">City</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@CustomerModel.City" />
+            <ValidationMessage For="() => CustomerModel.City" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@CustomerModel!.Postal" class="col-sm-2 col-form-label">Postal Code</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@CustomerModel.Postal" />
+            <ValidationMessage For="() => CustomerModel.Postal" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@CustomerModel!.Phone" class="col-sm-2 col-form-label">Phone</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@CustomerModel.Phone" />
+            <ValidationMessage For="() => CustomerModel.Phone" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@CustomerModel!.Email" class="col-sm-2 col-form-label">Email Address</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@CustomerModel.Email" />
+            <ValidationMessage For="() => CustomerModel.Email" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success mb-2 mt-2">Submit</button>
+</EditForm>
+
+<button hidden="@_isHidden" class="btn btn-danger mt-2" type="button" @onclick="OnDeleteClickAsync">
+    Delete
+</button>

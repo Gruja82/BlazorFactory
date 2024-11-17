@@ -1,0 +1,59 @@
+﻿@page "/productions"
+
+<PageTitle>Productions</PageTitle>
+
+<h1 class="text-center">Productions</h1>
+
+<div class="text-end">
+    <button type="button" class="btn btn-primary text-end" @onclick="NavigateToCreatePage">
+        Create New
+    </button>
+</div>
+
+@if (ProductionsCollection == null)
+{
+    
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <SearchBarForProduction Products="_products" ProductionDates="_productionDates" SearchTextChanged="OnSearchAsync"
+                DateChanged="OnSelectedDateChangedAsync" ProductChanged="OnSelectedProductChangedAsync" />
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Production Code</th>
+                    <th scope="col">Production Date</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var production in ProductionsCollection.DataList)
+                {
+                    <tr>
+                        <td>@production.Code</td>
+                        <td>@production.ProductionDate</td>
+                        <td>@production.ProductName</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" @onclick="() => NavigateToEditPage(production.Id)">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <PaginationComponent PaginationType="ProductionsCollection" PageNumberChanged="OnPageChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </div>
+    </div>
+}

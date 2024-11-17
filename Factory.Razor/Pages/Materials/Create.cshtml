@@ -1,0 +1,42 @@
+﻿@page
+@model Factory.Razor.Pages.Materials.CreateModel
+
+<h1 class="text-center">New Material</h1>
+
+<hr />
+
+<form method="post">
+    <div class="row mb-2">
+        <label for="@Model.MaterialModel.Name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="MaterialModel.Name" />
+            <span asp-validation-for="MaterialModel.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.MaterialModel.CategoryName" class="col-sm-2 col-form-label">Category</label>
+        <div class="col col-sm-10">
+            <select asp-for="MaterialModel.CategoryName">
+                @foreach (var category in Model.CategoriesCollection)
+                {
+                    <option>@category.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.MaterialModel.Quantity" class="col-sm-2 col-form-label">Quantity</label>
+        <div class="col col-sm-10">
+            <input type="number" value="0" readonly />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.MaterialModel.Price" class="col-sm-2 col-form-label">Price</label>
+        <div class="col col-sm-10">
+            <input asp-for="MaterialModel.Price" />
+            <span asp-validation-for="MaterialModel.Price" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button class="btn btn-success mb-2 mt-2" type="submit">Save Changes</button>
+</form>

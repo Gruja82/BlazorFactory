@@ -1,0 +1,35 @@
+﻿@page "/category"
+@page "/category/{id:int}"
+
+@if (Id == 0)
+{
+    <h3 class="text-center">New Category</h3>
+}
+else
+{
+    <h3 class="text-center">Category "@CategoryModel!.Name"</h3>
+}
+
+<EditForm EditContext="Context" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <div class="row mb-2">
+        <label for="@CategoryModel!.Name" class="col-sm-2 col-form-label">Category Name</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="CategoryModel!.Name" />
+            <ValidationMessage For="() => CategoryModel.Name" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@CategoryModel!.Description" class="col-sm-2 col-form-label">Category Description</label>
+        <div class="col col-sm-10">
+            <InputTextArea class="form-control" @bind-Value="CategoryModel!.Description" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success mb-2 mt-2">Submit</button>
+</EditForm>
+
+<button hidden="@_isHidden" class="btn btn-danger mt-2" type="button" @onclick="OnDeleteClickAsync">
+    Delete
+</button>

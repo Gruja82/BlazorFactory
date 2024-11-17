@@ -1,0 +1,88 @@
+﻿@typeparam TItem
+
+<div class="input-group rounded">
+    <input @bind="_searchText" class="rounded" type="search" aria-label="Search" aria-describedby="search-addon" />
+    <select class="rounded" @onchange="OnDateChangedAsync">
+        <option value="@string.Empty">Select Date</option>
+        @foreach (var stringDate in DatesList)
+        {
+            <option value="@stringDate">@stringDate</option>
+        }
+    </select>
+    @if (PaginationType.GetType() == typeof(Pagination<OrderDto>))
+    {
+        <select class="rounded" @onchange="OnCustomerChangedAsync">
+            <option value="@string.Empty">Select Customer</option>
+            @foreach (var customer in Customers)
+            {
+                <option value="@customer.Name">@customer.Name</option>
+            }
+        </select>
+    }
+    else if (PaginationType.GetType() == typeof(Pagination<PurchaseDto>))
+    {
+        <select class="rounded" @onchange="OnSupplierChangedAsync">
+            <option value="@string.Empty">Select Supplier</option>
+            @foreach (var supplier in Suppliers)
+            {
+                <option value="@supplier.Name">@supplier.Name</option>
+            }
+        </select>
+    }
+
+    <button type="button" class="btn btn-outline-success my-2 my-sm-0" @onclick="(() => SearchTextChanged.InvokeAsync(_searchText))">
+        Search
+    </button>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public Pagination<TItem> PaginationType { get; set; } = new();
+
+    [Parameter]
+    public List<CustomerDto> Customers { get; set; } = new();
+
+    [Parameter]
+    public List<SupplierDto> Suppliers { get; set; } = new();
+
+    [Parameter]
+    public List<string> DatesList { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<string> SearchTextChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<string> DateChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<string> CustomerChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<string> SupplierChanged { get; set; }
+
+    private string? _searchText;
+
+    private string? _stringDate;
+
+    private string? _customer;
+
+    private string? _supplier;
+
+    private async Task OnDateChangedAsync(ChangeEventArgs args)
+    {
+        _stringDate = args.Value!.ToString();
+        await DateChanged.InvokeAsync(_stringDate);
+    }
+
+    private async Task OnCustomerChangedAsync(ChangeEventArgs args)
+    {
+        _customer = args.Value!.ToString();
+        await CustomerChanged.InvokeAsync(_customer);
+    }
+
+    private async Task OnSupplierChangedAsync(ChangeEventArgs args)
+    {
+        _supplier = args.Value!.ToString();
+        await SupplierChanged.InvokeAsync(_supplier);
+    }
+}

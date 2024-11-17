@@ -1,0 +1,24 @@
+﻿@page
+@model Factory.Razor.Pages.Categories.CreateModel
+
+<h1 class="text-center">New Category</h1>
+
+<hr />
+
+<form method="post">
+    <div class="row mb-2">
+        <label for="@Model.CategoryModel.Name" class="col-sm-2 col-form-label">Category Name</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CategoryModel.Name" />
+            <span asp-validation-for="CategoryModel.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CategoryModel.Description" class="col-sm-2 col-form-label">Category Description</label>
+        <div class="col col-sm-10">
+            <textarea asp-for="CategoryModel.Description"></textarea>
+        </div>
+    </div>
+
+    <button class="btn btn-success mb-2 mt-2" type="submit">Save Changes</button>
+</form>

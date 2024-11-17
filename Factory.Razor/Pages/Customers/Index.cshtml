@@ -1,0 +1,50 @@
+﻿@page
+@using Factory.Razor.Pages.Shared
+@model Factory.Razor.Pages.Customers.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+
+    var paginationModel = new PaginationViewModel
+    {
+        PageNumber = Model.CustomersCollection.PageIndex,
+        TotalPages = Model.CustomersCollection.TotalPages,
+        PageSize = Model.CustomersCollection.PageSize
+    };
+}
+
+<h1 class="text-center">All Customers</h1>
+
+<hr />
+
+<p>
+    <a asp-page="/Customers/Create">Create New</a>
+</p>
+
+<partial name="Search" />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model.CustomersCollection.DataList)
+        {
+            <tr>
+                <td>@customer.Name</td>
+                <td>@customer.Contact</td>
+                <td>@customer.Email</td>
+                <td>
+                    <a asp-page="/Customers/Edit" asp-route-id="@customer.Id" asp-page-handler="Edit">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="Pagination" model="paginationModel" />

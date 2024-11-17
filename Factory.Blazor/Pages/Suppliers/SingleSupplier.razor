@@ -1,0 +1,71 @@
+﻿@page "/supplier"
+@page "/supplier/{id:int}"
+
+@if (Id == 0)
+{
+    <h3 class="text-center">New Supplier</h3>
+}
+else
+{
+    <h3 class="text-center">Supplier "@SupplierModel!.Name"</h3>
+}
+
+<EditForm EditContext="Context" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <div class="row mb-2">
+        <label for="@SupplierModel!.Name" class="col-sm-2 col-form-label">Company Name</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@SupplierModel.Name" />
+            <ValidationMessage For="() => SupplierModel.Name" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@SupplierModel!.Contact" class="col-sm-2 col-form-label">Contact Person</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@SupplierModel.Contact" />
+            <ValidationMessage For="() => SupplierModel.Contact" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@SupplierModel!.Address" class="col-sm-2 col-form-label">Address</label>
+        <div class="col col-sm-10">
+            <InputTextArea class="form-control" @bind-Value="@SupplierModel.Address" />
+            <ValidationMessage For="() => SupplierModel.Address" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@SupplierModel!.City" class="col-sm-2 col-form-label">City</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@SupplierModel.City" />
+            <ValidationMessage For="() => SupplierModel.City" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@SupplierModel!.Postal" class="col-sm-2 col-form-label">Postal Code</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@SupplierModel.Postal" />
+            <ValidationMessage For="() => SupplierModel.Postal" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@SupplierModel!.Phone" class="col-sm-2 col-form-label">Phone</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@SupplierModel.Phone" />
+            <ValidationMessage For="() => SupplierModel.Phone" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@SupplierModel!.Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@SupplierModel.Email" />
+            <ValidationMessage For="() => SupplierModel.Email" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success mb-2 mt-2">Submit</button>
+</EditForm>
+
+<button hidden="@_isHidden" class="btn btn-danger mt-2" type="button" @onclick="OnDeleteClickAsync">
+    Delete
+</button>

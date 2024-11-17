@@ -1,0 +1,46 @@
+﻿@page "{id:int}"
+@model Factory.Razor.Pages.Materials.EditModel
+
+<h1 class="text-center">Customer "@Model.MaterialModel.Name"</h1>
+
+<hr />
+
+<form method="post">
+    <input asp-for="MaterialModel.Id" hidden />
+    <div class="row mb-2">
+        <label for="@Model.MaterialModel.Name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="MaterialModel.Name" />
+            <span asp-validation-for="MaterialModel.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.MaterialModel.CategoryName" class="col-sm-2 col-form-label">Category</label>
+        <div class="col col-sm-10">
+            <select asp-for="MaterialModel.CategoryName">
+                @foreach (var category in Model.CategoriesCollection)
+                {
+                    <option>@category.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.MaterialModel.Quantity" class="col-sm-2 col-form-label">Quantity</label>
+        <div class="col col-sm-10">
+            <input asp-for="MaterialModel.Quantity" readonly />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.MaterialModel.Price" class="col-sm-2 col-form-label">Price</label>
+        <div class="col col-sm-10">
+            <input asp-for="MaterialModel.Price" />
+            <span asp-validation-for="MaterialModel.Price" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mt-4">
+        <button asp-page-handler="Edit" type="submit" class="btn btn-success mb-2 mt-2">Save Changes</button>
+        <button asp-page-handler="Delete" type="submit" class="btn btn-danger mb-2 mt-2 m-lg-2" onclick="return confirm('Are you sure you want to delete this Material?')">Delete</button>
+    </div>
+</form>

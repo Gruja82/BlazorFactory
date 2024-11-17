@@ -1,0 +1,59 @@
+﻿@page "/orders"
+
+<PageTitle>Orders</PageTitle>
+
+<h1 class="text-center">Orders</h1>
+
+<div class="text-end">
+    <button type="button" class="btn btn-primary text-end" @onclick="NavigateToCreatePage">
+        Create New
+    </button>
+</div>
+
+@if (OrdersCollection == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <SearchBarForCustomerAndSupplier PaginationType="OrdersCollection" Customers="_customers" DatesList="_orderDates" SearchTextChanged="OnSearchAsync"
+                DateChanged="OnSelectedDateChangedAsync" CustomerChanged="OnSelectedCustomerChangedAsync" />
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Order Code</th>
+                    <th scope="col">Order Date</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in OrdersCollection.DataList)
+                {
+                    <tr>
+                        <td>@order.Code</td>
+                        <td>@order.OrderDate</td>
+                        <td>@order.CustomerName</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" @onclick="() => NavigateToEditPage(order.Id)">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <PaginationComponent PaginationType="OrdersCollection" PageNumberChanged="OnPageChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </div>
+    </div>
+}

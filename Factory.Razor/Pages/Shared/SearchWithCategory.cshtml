@@ -1,0 +1,17 @@
+﻿@model SearchWithCategoryViewModel
+
+<div class="input-group rounded">
+    <form method="get" class="form-check-inline">
+        <input name="searchText" type="text" placeholder="Search Term" />
+        <select name="category">
+            <option value="">Select Category</option>
+            @foreach (var category in Model.Categories)
+            {
+                <option>@category.Name</option>
+            }
+        </select>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Search
+        </button>
+    </form>
+</div>

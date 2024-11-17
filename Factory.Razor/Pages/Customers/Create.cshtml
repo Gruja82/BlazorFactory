@@ -1,0 +1,60 @@
+﻿@page
+@model Factory.Razor.Pages.Customers.CreateModel
+
+<h1 class="text-center">New Customer</h1>
+
+<hr />
+
+<form method="post">
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Name" />
+            <span asp-validation-for="CustomerModel.Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Contact" class="col-sm-2 col-form-label">Contact</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Contact" />
+            <span asp-validation-for="CustomerModel.Contact" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Address" class="col-sm-2 col-form-label">Address</label>
+        <div class="col col-sm-10">
+            <textarea type="text" asp-for="CustomerModel.Address"></textarea>
+            <span asp-validation-for="CustomerModel.Address" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.City" class="col-sm-2 col-form-label">City</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.City" />
+            <span asp-validation-for="CustomerModel.City" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Postal" class="col-sm-2 col-form-label">Postal</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Postal" />
+            <span asp-validation-for="CustomerModel.Postal" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Phone" class="col-sm-2 col-form-label">Phone</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Phone" />
+            <span asp-validation-for="CustomerModel.Phone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@Model.CustomerModel.Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col col-sm-10">
+            <input type="text" asp-for="CustomerModel.Email" />
+            <span asp-validation-for="CustomerModel.Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button class="btn btn-success mb-2 mt-2" type="submit">Save Changes</button>
+</form>

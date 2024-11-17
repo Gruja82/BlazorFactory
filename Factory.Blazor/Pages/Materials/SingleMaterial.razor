@@ -1,0 +1,55 @@
+﻿@page "/material"
+@page "/material/{id:int}"
+
+@if (Id == 0)
+{
+    <h3 class="text-center">New Material</h3>
+}
+else
+{
+    <h3 class="text-center">Material "@MaterialModel!.Name"</h3>
+}
+
+<EditForm EditContext="Context" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <div class="row mb-2">
+        <label for="@MaterialModel!.Name" class="col-sm-2 col-form-label">Material Name</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@MaterialModel.Name" />
+            <ValidationMessage For="() => MaterialModel.Name" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@MaterialModel!.CategoryName" class="col-sm-2 col-form-label">Category</label>
+        <div class="col col-sm-10">
+            <select class="form-control" @bind="@MaterialModel.CategoryName">
+                @foreach (var category in _categories!)
+                {
+                    <option value="@category.Name">@category.Name</option>
+                }
+            </select>
+            <ValidationMessage For="() => MaterialModel.CategoryName" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@MaterialModel!.Quantity" class="col-sm-2 col-form-label">Material Quantity</label>
+        <div class="col col-sm-10">
+            <InputNumber class="form-control" @bind-Value="@MaterialModel.Quantity" readonly />
+            <ValidationMessage For="() => MaterialModel.Quantity" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@MaterialModel!.Price" class="col-sm-2 col-form-label">Material Price</label>
+        <div class="col col-sm-10">
+            <InputNumber class="form-control" @bind-Value="@MaterialModel.Price" />
+            <ValidationMessage For="() => MaterialModel.Price" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success mb-2 mt-2">Submit</button>
+</EditForm>
+
+<button hidden="@_isHidden" class="btn btn-danger mt-2" type="button" @onclick="OnDeleteClickAsync">
+    Delete
+</button>

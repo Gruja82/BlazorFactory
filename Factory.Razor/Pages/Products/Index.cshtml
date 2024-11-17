@@ -1,0 +1,55 @@
+﻿@page
+@using Factory.Razor.Pages.Shared
+@model Factory.Razor.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+
+    var paginationModel = new PaginationViewModel
+    {
+        PageNumber = Model.ProductsCollection.PageIndex,
+        TotalPages = Model.ProductsCollection.TotalPages,
+        PageSize = Model.ProductsCollection.PageSize
+    };
+
+    var searchModel = new SearchWithCategoryViewModel
+    {
+        Categories = Model.CategoriesCollection
+    };
+}
+
+<h1 class="text-center">All Products</h1>
+
+<hr />
+
+<p>
+    <a asp-page="/Products/Create">Create New</a>
+</p>
+
+<partial name="SearchWithCategory" model="searchModel" />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.ProductsCollection.DataList)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.CategoryName</td>
+                <td>@product.Quantity</td>
+                <td>
+                    <a asp-page="/Products/Edit" asp-route-id="@product.Id" asp-page-handler="Edit">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="Pagination" model="paginationModel" />

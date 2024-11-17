@@ -1,0 +1,55 @@
+﻿@page
+@using Factory.Razor.Pages.Shared
+@model Factory.Razor.Pages.Materials.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+
+    var paginationModel = new PaginationViewModel
+    {
+        PageNumber = Model.MaterialsCollection.PageIndex,
+        TotalPages = Model.MaterialsCollection.TotalPages,
+        PageSize = Model.MaterialsCollection.PageSize
+    };
+
+    var searchModel = new SearchWithCategoryViewModel
+    {
+        Categories = Model.CategoriesCollection
+    };
+}
+
+<h1 class="text-center">All Materials</h1>
+
+<hr />
+
+<p>
+    <a asp-page="/Materials/Create">Create New</a>
+</p>
+
+<partial name="SearchWithCategory" model="searchModel" />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var material in Model.MaterialsCollection.DataList)
+        {
+            <tr>
+                <td>@material.Name</td>
+                <td>@material.CategoryName</td>
+                <td>@material.Quantity</td>
+                <td>
+                    <a asp-page="/Materials/Edit" asp-route-id="@material.Id" asp-page-handler="Edit">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="Pagination" model="paginationModel" />

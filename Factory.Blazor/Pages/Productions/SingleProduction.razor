@@ -1,0 +1,55 @@
+﻿@page "/production"
+@page "/production/{id:int}"
+
+@if (Id == 0)
+{
+    <h3 class="text-center">New Production</h3>
+}
+else
+{
+    <h3 class="text-center">Production "@ProductionModel!.Code"</h3>
+}
+
+<EditForm EditContext="Context" OnValidSubmit="SubmitAsync">
+    <DataAnnotationsValidator />
+
+    <div class="row mb-2">
+        <label for="@ProductionModel!.Code" class="col-sm-2 col-form-label">Production Code</label>
+        <div class="col col-sm-10">
+            <InputText class="form-control" @bind-Value="@ProductionModel.Code" />
+            <ValidationMessage For="() => ProductionModel.Code" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@ProductionModel!.ProductionDate" class="col-sm-2 col-form-label">Production Date</label>
+        <div class="col col-sm-10">
+            <InputDate class="form-control" @bind-Value="@ProductionModel.ProductionDate" />
+            <ValidationMessage For="() => ProductionModel.ProductionDate" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@ProductionModel!.ProductName" class="col-sm-2 col-form-label">Product Name</label>
+        <div class="col col-sm-10">
+            <select class="form-control" @bind="@ProductionModel.ProductName">
+                @foreach (var product in _products!)
+                {
+                    <option value="@product.Name">@product.Name</option>
+                }
+            </select>
+            <ValidationMessage For="() => ProductionModel.ProductName" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <label for="@ProductionModel!.Qty" class="col-sm-2 col-form-label">Product Quantity</label>
+        <div class="col col-sm-10">
+            <InputNumber class="form-control" @bind-Value="@ProductionModel.Qty" />
+            <ValidationMessage For="() => ProductionModel.Qty" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success mb-2 mt-2">Submit</button>
+</EditForm>
+
+<button hidden="@_isHidden" class="btn btn-danger mt-2" type="button" @onclick="OnDeleteClickAsync">
+    Delete
+</button>

@@ -1,0 +1,48 @@
+﻿@page
+@using Factory.Razor.Pages.Shared
+@model Factory.Razor.Pages.Categories.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+
+    var paginationModel = new PaginationViewModel
+    {
+        PageNumber = Model.CategoriesCollection.PageIndex,
+        TotalPages = Model.CategoriesCollection.TotalPages,
+        PageSize = Model.CategoriesCollection.PageSize
+    };
+}
+
+<h1 class="text-center">All Categories</h1>
+
+<hr />
+
+<p>
+    <a asp-page="/Categories/Create">Create New</a>
+</p>
+
+<partial name="Search" />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.CategoriesCollection.DataList)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.Description</td>
+                <td>
+                    <a asp-page="/Categories/Edit" asp-route-id="@category.Id" asp-page-handler="Edit">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="Pagination" model="paginationModel" />

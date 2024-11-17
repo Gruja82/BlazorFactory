@@ -1,0 +1,58 @@
+﻿@page "/suppliers"
+
+<PageTitle>Suppliers</PageTitle>
+
+<h1 class="text-center">Suppliers</h1>
+
+<div class="text-end">
+    <button type="button" class="btn btn-primary text-end" @onclick="NavigateToCreatePage">
+        Create New
+    </button>
+</div>
+
+@if (SuppliersCollection == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <SearchBar SearchTextChanged="OnSearchAsync" />
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Contact Person</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var supplier in SuppliersCollection.DataList)
+                {
+                    <tr>
+                        <td>@supplier.Name</td>
+                        <td>@supplier.Contact</td>
+                        <td>@supplier.Email</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" @onclick="() => NavigateToEditPage(supplier.Id)">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <PaginationComponent PaginationType="SuppliersCollection" PageNumberChanged="OnPageChangedAsync" PageSizeChanged="OnPageSizeChangedAsync" />
+        </div>
+    </div>
+}

@@ -1,0 +1,56 @@
+﻿<div class="input-group rounded">
+    <input @bind="_searchText" class="rounded" type="search" aria-label="Search" aria-describedby="search-addon" />
+    <select class="rounded" @onchange="OnDateChangedAsync">
+        <option value="@string.Empty">Select Date</option>
+        @foreach (var stringDate in ProductionDates)
+        {
+            <option value="@stringDate">@stringDate</option>
+        }
+    </select>
+    <select class="rounded" @onchange="OnProductChangedAsync">
+        <option value="@string.Empty">Select Product</option>
+        @foreach (var product in Products)
+        {
+            <option value="@product">@product</option>
+        }
+    </select>
+
+    <button type="button" class="btn btn-outline-success my-2 my-sm-0" @onclick="(() => SearchTextChanged.InvokeAsync(_searchText))">
+        Search
+    </button>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public List<ProductDto> Products { get; set; } = new();
+
+    [Parameter, EditorRequired]
+    public List<string> ProductionDates { get; set; } = new();
+
+    [Parameter,EditorRequired]
+    public EventCallback<string> SearchTextChanged { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<string> ProductChanged { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<string> DateChanged { get; set; }
+
+    private string? _searchText;
+
+    private string? _stringDate;
+
+    private string? _product;
+
+    private async Task OnDateChangedAsync(ChangeEventArgs args)
+    {
+        _stringDate = args.Value!.ToString();
+        await DateChanged.InvokeAsync(_stringDate);
+    }
+
+    private async Task OnProductChangedAsync(ChangeEventArgs args)
+    {
+        _product = args.Value!.ToString();
+        await ProductChanged.InvokeAsync(_product);
+    }
+}
